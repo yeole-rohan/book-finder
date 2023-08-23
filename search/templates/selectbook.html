@@ -1,0 +1,75 @@
+{% extends 'base.html' %}{% block content %}
+
+<div class="container">
+    <form class="d-flex mt-5" method="POST">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" name="search-input" placeholder="Type anything regarding book" aria-label="Search" required>
+        <button class="btn btn-outline-success" type="submit" name="search-btn">Search</button>
+    </form>
+    {% if search_results %}
+        <h1>Search Results for "{{ keyword }}"</h1>
+        
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Authors</th>
+                        <th scope="col">Publisher</th>
+                        <th scope="col">Published Date</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Categories</th>
+                        <th scope="col">Language</th>
+                        <th scope="col">ISBN-10</th>
+                        <th scope="col">ISBN-13</th>
+                        <th scope="col">Page Count</th>
+                        <th scope="col">Comics Content</th>
+                        <th scope="col">Preview Link</th>
+                        <th scope="col">Info Link</th>
+                        <th scope="col">Thumbnail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in search_results %}
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.authors }}</td>
+                            <td>{{book.publisher}}</td>
+                            <td>{{book.published_date}}</td>
+                            <td>{{book.description | truncatechars_html:"30"}}</td>
+                            <td>{{book.categories}}</td>
+                            <td>{{book.language}}</td>
+                            <td>{{book.isbn_10}}</td>
+                            <td>{{book.isbn_13}}</td>
+                            <td>{{book.page_count}}</td>
+                            <td>{% if book.comics_content %}Yes{% else %}No{% endif %}</td>
+                            <td><a href="{{book.preview_link}}">Preview</a></td>
+                            <td><a href="{{book.info_link}}">Info</a></td>
+                            <td><img src="{{book.thumbnail}}" alt="Thumbnail"></td>
+                        </tr>
+                    {% empty %}
+                        <li>No results found.</li>
+                    {% endfor %}
+                    <!-- Repeat similar rows for pagination -->
+                </tbody>
+            </table>
+        </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">1</span>
+                </li>
+                <!-- Generate more page items as needed -->
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock content %}

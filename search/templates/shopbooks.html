@@ -1,0 +1,54 @@
+{% extends 'base.html' %}{% block content %}
+
+<div class="container">
+    {% if shopbooks %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Authors</th>
+                        <th scope="col">Publisher</th>
+                        <th scope="col">Published Date</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Categories</th>
+                        <th scope="col">Language</th>
+                        <th scope="col">ISBN-10</th>
+                        <th scope="col">ISBN-13</th>
+                        <th scope="col">Page Count</th>
+                        <th scope="col">Comics Content</th>
+                        <th scope="col">Preview Link</th>
+                        <th scope="col">Info Link</th>
+                        <th scope="col">Thumbnail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shopbook in shopbooks %}
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>{{shopbook.book.title}}</td>
+                            <td>{{shopbook.book.authors}}</td>
+                            <td>{{shopbook.book.publisher}}</td>
+                            <td>{{shopbook.book.published_date}}</td>
+                            <td>{{shopbook.book.description | truncatechars_html:"30"}}</td>
+                            <td>{{shopbook.book.categories}}</td>
+                            <td>{{shopbook.book.language}}</td>
+                            <td>{{shopbook.book.isbn_10}}</td>
+                            <td>{{shopbook.book.isbn_13}}</td>
+                            <td>{{shopbook.book.page_count}}</td>
+                            <td>{% if shopbook.book.comics_content %}Yes{% else %}No{% endif %}</td>
+                            <td><a href="{{shopbook.book.preview_link}}">Preview</a></td>
+                            <td><a href="{{shopbook.book.info_link}}">Info</a></td>
+                            <td><img src="{{shopbook.book.thumbnail}}" alt="Thumbnail"></td>
+                        </tr>
+                    {% endfor %}
+                    <!-- Repeat similar rows for pagination -->
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        No Books Found. Do add some.
+    {% endif %}
+</div>
+{% endblock content %}

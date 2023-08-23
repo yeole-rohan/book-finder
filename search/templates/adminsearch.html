@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <form class="d-flex mt-5" method="POST">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" name="search-input" placeholder="Add Book by any parameter" aria-label="Search" required>
+        <button class="btn btn-outline-success" type="submit" name="search-btn">Search</button>
+    </form>
+    {% if keyword %}
+        <h1>Books Added for "{{keyword}}"
+    {% endif %}
+</div>
+{% endblock content %}

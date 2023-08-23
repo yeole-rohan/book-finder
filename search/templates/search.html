@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <form class="d-flex mt-5" method="POST">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" name="search-input" placeholder="Type anything regarding book" aria-label="Search" required>
+        <button class="btn btn-outline-success" type="submit" name="search-btn">Search</button>
+    </form>
+
+    {% if search_results %}
+        <h1>Search Results for "{{ keyword }}"</h1>
+        {% if users_with_these_books %}
+            <div class="row">
+                {% for book in search_results %}
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="row g-0">
+                            <div class="col-lg-2 col-md-4 col-sm-12">
+                                <img src="{{book.thumbnail}}" class="img-fluid rounded-start" alt="{{ book.title }}">
+                            </div>
+                            <div class="col-lg-6 col-md-4 col-sm-12">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ book.title }}</h5>
+                                    <p class="card-text">{{book.description | truncatechars:"30"}}</p>
+                                    <p class="card-text">Author - <small>{{ book.authors }}</small>,Publisher - <small>{{book.publisher}}</small>, Published On <small>{{book.published_date}}</small> </p>
+                                    <p class="card-text">Categories - <small>{{ book.categories }}</small>,Language - <small>{{book.language}}</small>, ISBN-10 <small>{{book.isbn_10}}</small>, ISBN-13 <small>{{book.isbn_13}}</small>, Is Comic {% if book.comics_content %}Yes{% else %}No{% endif %} </p>
+                                </div>
+                                <div class="card-text">
+                                    <a href="{{book.preview_link}}" class="card-link">Preview</a>
+                                    <a href="{{book.info_link}}" class="card-link">Info link</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                {% for shop in users_with_these_books %}
+                                    {% if shop.book.id == book.id %}
+                                    
+                                        Available at {{shop.user.shopName}}
+                                        <div class="card-text">
+                                            <p>
+                                            {% if shop.user.isVerified %}Verified {% else %}Not Verified{% endif %} 
+                                            </p>
+                                            <p>Address - {{shop.user.shopAddress}}</p>
+                                            <p>Address on Map Location</p>
+                                        </div>
+                                        <div class="card-text">
+                                            <a href="tel:+{{shop.user.mobileNumber}}" class="card-link">Call</a>
+                                            <a href="mailto:{{shop.user.email}}" class="card-link">Email</a>
+                                        </div>
+                                    
+                                    {% endif %}
+                                
+                                {% endfor %}
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            No Shop Found for this book.
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock content %}
