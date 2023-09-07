@@ -1,5 +1,5 @@
 {% extends 'base.html' %}{% block content %}
-
+{% load static %}
 <div class="container">
     <form class="d-flex mt-5" method="POST">
         {% csrf_token %}
@@ -33,7 +33,7 @@
                 <tbody>
                     {% for book in search_results %}
                         <tr>
-                            <td><input type="checkbox"></td>
+                            <td><input data-book-id="{{book.id}}" type="checkbox"></td>
                             <td>{{ book.title }}</td>
                             <td>{{ book.authors }}</td>
                             <td>{{book.publisher}}</td>
@@ -73,3 +73,6 @@
     {% endif %}
 </div>
 {% endblock content %}
+{% block js %}
+    <script src="{% static 'js/selectbook.js' %}"></script>
+{% endblock js %}

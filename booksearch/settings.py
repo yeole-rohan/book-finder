@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os
+import os, json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+with open(os.path.join(BASE_DIR, "env.json")) as config_file:
+    config = json.load(config_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -124,9 +126,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL = 'static/'
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+print(config["SERVERTYPE"])
+if config["SERVERTYPE"] == "server":
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+STATIC_URL = "static/"
+if config["SERVERTYPE"] == "local":
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+    print(STATICFILES_DIRS)
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

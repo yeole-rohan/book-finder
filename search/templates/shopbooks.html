@@ -1,5 +1,5 @@
 {% extends 'base.html' %}{% block content %}
-
+{% load static %}
 <div class="container">
     {% if shopbooks %}
         <div class="table-responsive">
@@ -26,7 +26,7 @@
                 <tbody>
                     {% for shopbook in shopbooks %}
                         <tr>
-                            <td><input type="checkbox"></td>
+                            <td><input data-book-id="{{shopbook.book.id}}" type="checkbox" checked></td>
                             <td>{{shopbook.book.title}}</td>
                             <td>{{shopbook.book.authors}}</td>
                             <td>{{shopbook.book.publisher}}</td>
@@ -52,3 +52,6 @@
     {% endif %}
 </div>
 {% endblock content %}
+{% block js %}
+    <script src="{% static 'js/selectbook.js' %}"></script>
+{% endblock js %}

@@ -2,3 +2,10 @@ p{
     margin: 0;
     padding: 0;
 }
+.messages{
+    position: fixed;
+    bottom: 20px;
+    z-index: 999999;
+    left: auto;
+    right: 20px;
+}
