@@ -22,6 +22,11 @@ def selectbooks(request):
                 search_results = Book.objects.filter(q_objects).exclude(id__in=userHasBooks)[:10]
             except:
                 search_results = Book.objects.filter(q_objects).exclude(id__in=userHasBooks)
+            # results_per_page = 10
+            # page_number = request.GET.get('page')
+
+            # paginator = Paginator(search_results, results_per_page)
+            # search_results = paginator.get_page(page_number)
     else:
         messages.warning(request, "Wait till we verify your account")
         return redirect("search:selectbooks")
@@ -37,7 +42,7 @@ def adminsearch(request):
     return render(request, "adminsearch.html", {'keyword' : keyword})
 
 def search(request):
-    keyword, search_results, users_with_these_books = '', '', ''
+    keyword, search_results, users_shops_with_these_books = '', '', ''
     if request.method == "POST" and "search-btn" in request.POST:
         keyword = request.POST.get("search-input")
         q_objects = create_query(keyword)
@@ -47,9 +52,10 @@ def search(request):
             search_results = Book.objects.filter(q_objects)[:10]
         except:
             search_results = Book.objects.filter(q_objects)
-        users_with_these_books = UserBook.objects.filter(book__in=search_results.values_list("id", flat=True)).select_related("user")
-        print(users_with_these_books, "Billesur", search_results)
-    return render(request, "search.html", {'search_results' : search_results, 'keyword' : keyword, 'users_with_these_books' : users_with_these_books})
+        users_shops_with_these_books = UserBook.objects.filter(book__in=search_results.values_list("id", flat=True)).select_related("user")
+        print(users_shops_with_these_books, "Billesur", search_results)
+    # search_results.exclude(is__in=)
+    return render(request, "search.html", {'search_results' : search_results, 'keyword' : keyword, 'users_shops_with_these_books' : users_shops_with_these_books})
 
 def create_query(keyword):
     q_objects = Q()

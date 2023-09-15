@@ -9,3 +9,21 @@ p{
     left: auto;
     right: 20px;
 }
+.search-head {
+    font-size: 25px;
+    line-height: 31px;
+    color: black;
+    font-weight: 700;
+}
+.search-head span{
+    color: red;
+}
+.shop-name img{
+    width: 15px;
+}
+.shop-location img{
+    width: 20px;
+}
+.placeholder-img{
+    width: 150px;
+}
